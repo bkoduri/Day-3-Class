@@ -35,7 +35,9 @@
     <title>Day 3 Class</title>
   </head>
   <body>
-    <div class="container">
+    <div id='dashboard' class="container">
+      <h1>{{ name }}</h1>
+      <h1>{{ days_left }}</h1>
       <h1>Welcome</h1>
       <div class="row">
         <div class="col placeholder">
@@ -74,7 +76,7 @@
 
 
       <div class="row">
-        <table class="table table">
+        <table id="taskTable" class="table table">
           <thead>
             <tr>
               <th>Task</th>
@@ -103,5 +105,12 @@
       </div> <!--End row3 tables-->
 
       </div>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src='js/tablesort.min.js'></script>
+      <script src='js/app.js'></script>
+      <script>
+
+        new Tablesort(document.getElementById('taskTable'));
+      </script>
   </body>
 </html>
