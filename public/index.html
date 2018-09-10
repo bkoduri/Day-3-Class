@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dashboard.css">
-    <style type="text/css">
+    <!-- <style type="text/css">
       .placeholder {
         background-color: lightblue;
         border: 2px solid red;
@@ -32,7 +32,7 @@
         color: blue;
         font-weight: bold;
       }
-    </style>
+    </style>-->
     <title>Day 3 Class</title>
   </head>
   <body>
@@ -100,7 +100,10 @@
             </tr>
           </thead>
           <tbody>
-          <tr v-for="task in tasks">
+            <tr v-for="task in tasks"
+                  :key="task.id"
+                  :id="'task-' + task.id"
+                  :class="task.current_sprint ? 'current-sprint' : '' ">
             <td>{{task.id}}</td>
             <td>{{task.title}}</td>
             <td>{{task.type}}</td>
@@ -110,7 +113,7 @@
             <td>{{task.start_date}}</td>
             <td>{{task.close_date}}</td>
             <td>{{task.hours_worked}}</td>
-            <td>{{task.perc_complete}}</td>
+            <td :class="complete_class(task)">{{ task.perc_complete }}</td>
             <td>{{task.current_sprint}}</td>
           <!-- </tr>
           <tr>

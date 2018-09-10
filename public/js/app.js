@@ -89,7 +89,7 @@ var dashboardApp=new Vue({
 
       return '$ ' + (val/1e6).toFixed(1) + ' M'
     },
-    completeClass: function(task) {
+    complete_class: function(task) {
       if (task.perc_complete == 100 ) {
         return 'alert-success'
       }
