@@ -25,6 +25,7 @@ section .ban {
 
 #taskTable > tbody > tr {
   border-left: 12px solid red;
+  cursor: pointer;
 }
 #taskTable > tbody > tr.current-sprint {
   border-left: 12px solid green;
