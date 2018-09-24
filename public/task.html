@@ -16,7 +16,7 @@
 
     <main id="taskMain" class="container-fluid">
       <div class="row">
-        <h2 class="col-9">Task #{{ task.id }}: Write middleware</h2>
+        <h2 class="col-9">Task #4: Write middleware</h2>
         <p class="col task-estimate"><span class="estimate">80%</span></p>
         <p class="col task-status" ><strong>Open</strong></p>
         <p class="col task-type"><strong>Epic</strong></p>
@@ -29,7 +29,7 @@
       <div class="row">
         <p class="col">Started: <strong>2018-07-04</strong></p>
         <p class="col">Last Updated: <strong>2018-07-20</strong></p>
-        <p class="col">Closed: <strong>OPEN</strong></p>
+        <p class="col">Status: <strong>OPEN</strong></p>
         <!-- TODO: "current_sprint" : true -->
       </div>
 
@@ -49,8 +49,8 @@
         <tbody v-for="w in work"
         :key="w.id"
         :id="'task-' + task.id + '-work-' + w.id">
-          <td>{{w.start}}</td>
-          <td>{{w.stop}}</td>
+          <td>{{prettyDate(w.start)}}</td>
+          <td>{{prettyDate(w.stop)}}</td>
           <td>{{w.hours}}</td>
           <td>{{w.completion_estimate}}</td>
         </tbody>
@@ -81,15 +81,32 @@
               <hr>
                 <h3>Add work</h3>
 
-                <form action="#" @submit.prevent="handleWorkForm">
-                  <p>Start: <input type="datetime-local" name="start" value=""></p>
-                  <p>End: <input type="datetime-local" name="stop"></p>
-                  <p>Logged work period is <strong>?? hours</strong></p>
-                  <p>
-                    Completion estimate
-                    <input type="numeric" name="completion_estimate" v-model.lazy="workForm.completion_estimate">
-                  </p>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form @submit.prevent="handleWorkForm">
+                  <div class="form-group row">
+                    <label for="start" class="col-sm-1 col-form-label">Start: </label>
+                    <div class="col-sm-6">
+                      <input type="datetime-local" id="start" v-model="workForm.start" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="stop" class="col-sm-1 col-form-label">End: </label>
+                    <div class="col-sm-6">
+                      <input type="datetime-local" id="stop" v-model="workForm.stop" class="form-control" required>
+                    </div>
+                  </div>
+                  <p>Logged work period is <strong>{{workSpan}} hours</strong></p>
+                  <div class="form-group row">
+                    <label for="completion_estimate" class="col-sm-2 col-form-label">Completion estimate: </label>
+
+                    <div class="col-sm-4 input-group">
+                      <input type="number" id="completion_estimate" v-model.lazy="workForm.completion_estimate" class="form-control" min="2" max="100" step="1" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                   <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
               <!-- </div>
