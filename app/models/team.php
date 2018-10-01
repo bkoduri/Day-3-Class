@@ -6,6 +6,7 @@ class Team
   public $team_id;
   public $name;
   public $hourly_rate;
+  
 
   public function __construct($row) {
     $this->id = intval($row['id']);
