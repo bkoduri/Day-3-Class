@@ -1,10 +1,14 @@
 <?php
-require '../../app/common.php';
-$taskId = intval($_GET['teamId'] ?? 0);
 
-// if($taskId < 1) {
-//     throw new exception('Invalid Task ID');
-// }
-$teams = Team::findAll($teamId);
-header ('Content-type: application/json')
-echo json_encode($teams);
+require '../../app/common.php';
+
+
+// 1. Go to the database and get all work associated with the $taskId
+$teams = Team::fetchAll();
+
+// 2. Convert to JSON
+$json = json_encode($teams, JSON_PRETTY_PRINT);
+
+// 3. Print
+header('Content-Type: application/json');
+echo $json;

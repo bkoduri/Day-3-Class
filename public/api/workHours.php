@@ -3,19 +3,23 @@
 require '../../app/common.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  require 'workPost.php';
+  <?php
+
+  $workHours = new WorkHours($_POST);
+  $workHours->create();
+  echo json_encode($workHours);
   exit;
 }
 
-$taskId = intval($_GET['taskId'] ?? 0);
+$projectId = intval($_GET['projectId'] ?? 0);
 
-if ($taskId < 1) {
-  throw new Exception('Invalid Task ID');
+if ($projectId < 1) {
+  throw new Exception('Invalid $project ID');
 }
 
 
 // 1. Go to the database and get all work associated with the $taskId
-$workArr = Work::getWorkByTaskId($taskId);
+$workArr = WorkHoursReport::fetchByProjectId($projectId);
 
 // 2. Convert to JSON
 $json = json_encode($workArr, JSON_PRETTY_PRINT);
