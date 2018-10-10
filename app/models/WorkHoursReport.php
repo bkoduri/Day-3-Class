@@ -1,6 +1,6 @@
 <?php
 
-class Work
+class WorkHoursReport
 {
   public $id;
   public $task_id;
@@ -52,28 +52,24 @@ class Work
 
 
 
-  public static function getWorkByTaskId(int $taskId) {
+  public static function fetchByProjectId($projectId) {
     // 1. Connect to the database
     $db = new PDO(DB_SERVER, DB_USER, DB_PW);
 
     // 2. Prepare the query
-    $sql = 'SELECT * FROM Work WHERE task_id = ?';
+    $sql = 'SELECT DATE(start_date) AS date, SUM(hours) AS hours,
+     FROM Work, Tasks WHERE Work.task_id = Tasks.id AND
+     Tasks.project_id=? GROUP BY DATE(start_date)';
 
     $statement = $db->prepare($sql);
 
     // 3. Run the query
     $success = $statement->execute(
-        [$taskId]
+        [$projectId]
     );
 
     // 4. Handle the results
-    $arr = [];
-    while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-      // 4.a. For each row, make a new work object
-      $workItem =  new Work($row);
-
-      array_push($arr, $workItem);
-    }
+    $arr = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     // 4.b. return the array of work objects
 

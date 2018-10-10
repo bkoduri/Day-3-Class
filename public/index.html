@@ -1,147 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dashboard.css">
-    <!-- <style type="text/css">
-      .placeholder {
-        background-color: lightblue;
-        border: 2px solid red;
-      }
-      section{
-        border: 3px solid darkblue;
-        text-align: center;
-      }
-      section h2 {
-        font-size: 10pt;
-        color: brown;
-        text-transform: uppercase;
-        text-align: left;
-      }
-      .label{
-        font-size: 12pt;
-        color: grey;
-        text-transform: capitalize;
-      }
-      .data {
-        font-size: 22pt;
-        color: blue;
-        font-weight: bold;
-      }
-    </style>-->
-    <title>Day 3 Class</title>
+
+    <title>Project Dashboard</title>
   </head>
   <body>
-    <div id="dashboard" class="container">
-      <h1>Welcome to {{Name}}</h1>
-      <p> <em>{{short_description}}</em> </p>
+
+
+    <main id="dashboard" class="container-fluid">
+      <h1>{{ project.name }}</h1>
+      <p><em>{{ project.short_description }}</em></p>
       <div class="row">
         <div class="col placeholder">
-          Completion%
+          Completion %
         </div>
+
         <section class="col">
-          <h2>Target Date</h2>
           <div class="row">
             <div class="col">
-              <span class="data">{{pretty_date(target_date)}}</span>
+              <h2>Due date</h2>
+              <div class="ban">{{ pretty_date(project.target_date) }}</div>
             </div>
             <div class="col">
-              <span class="label">Days left</span>
-              <span class="data">42</span>
-
+              <h2>Remaining</h2>
+              <div class="ban">{{ days_left }} days</div>
             </div>
           </div>
         </section>
+
         <div class="col placeholder">
           Status
         </div>
-      </div> <!--End row1 high level summary-->
-
+      </div> <!-- end row 1, high-level summary information -->
 
       <div class="row">
-        <section class="col placeholder" style="height:300px">
+        <section class="col">
           <h2>Spent</h2>
-          <span class="data">{{pretty_currency(spent)}}</span>
+          <div class="ban">{{ pretty_currency(project.spent) }}</div>
+
           <h2>Budget</h2>
-          <span class="data">{{pretty_currency(budget)}}</span>
+          <div class="ban">{{ pretty_currency(project.budget) }}</div>
+
           <h2>Projected Spend</h2>
-          <span class="data">{{pretty_currency(projected_spend)}}</span>
-
+          <div class="ban">{{ pretty_currency(project.projected_spend) }}</div>
         </section>
-        <div class="col placeholder">
-          <h2>Burndown chart</h2>
+        <div class="col placeholder" style="height:200px">
+          Burndown chart goes here.
         </div>
         <div class="col placeholder">
-          <h2>Effort chart</h2>
+          Effort chart goes here.
         </div>
-      </div> <!--End row2 charts-->
-
+      </div> <!-- end row 2, charts -->
 
       <div class="row">
-        <table id="taskTable" class="table table table-hover">
+        <table id="taskTable" class="table table-striped table-sm table-hover">
           <thead>
             <tr>
-              <th>id</th>
-              <th>Title</th>
+              <th>Task</th>
               <th>Type</th>
               <th>Size</th>
-              <th>Team Name</th>
+              <th>Assigned Team</th>
               <th>Status</th>
-              <th>Start_date</th>
-              <th>Close_date</th>
-              <th>Hours_worked</th>
-              <th>Perc_complete</th>
-              <th>Current_print</th>
-
+              <th>Started</th>
+              <th>Hrs</th>
+              <th>% Complete</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="task in tasks"
-                  :key="task.id"
-                  :id="'task-' + task.id"
-                  :class="task.current_sprint ? 'current-sprint' : ''"
+                :key="task.id"
+                :id="'task-' + task.id"
+                :class="task.current_sprint ? 'current-sprint' : '' "
                 @click="gotoTask(task.id)">
-            <td>{{task.id}}</td>
-            <td>{{task.title}}</td>
-            <td>{{task.type}}</td>
-            <td>{{task.size}}</td>
-            <td>{{task.team}}</td>
-            <td>{{task.status}}</td>
-            <td>{{task.start_date}}</td>
-            <td>{{task.close_date}}</td>
-            <td>{{task.hours_worked}}</td>
-            <td :class="complete_class(task)">{{ task.perc_complete }}</td>
-            <td>{{task.current_sprint}}</td>
-          <!-- </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>the Bird</td>-->
-          </tr>
-        </tbody>
+              <td>{{ task.title }}</td>
+              <td>{{ task.type }}</td>
+              <td>{{ task.size }}</td>
+              <td>{{ task.team }}</td>
+              <td>{{ task.status }}</td>
+              <td>{{ task.start_date }}</td>
+              <td>{{ task.hours_worked }}</td>
+              <td :class="completeClass(task)">{{ task.perc_complete }}</td>
+            </tr>
+          </tbody>
         </table>
-      </div> <!--End row3 tables-->
-<div class="row">
-  <button v-on:click>Click here</button>
+      </div> <!-- end row 3, tabular data -->
+    </main>
 
-</div>
-      </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-      <script src="js/tablesort.min.js"></script>
-      <script src="js/app.js"></script>
-      <script>
+    <!-- moment.js via CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
-        new Tablesort(document.getElementById('taskTable'));
-      </script>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/dashboard.app.js"></script>
+
+    <script src="js/tablesort.min.js"></script>
+    <script>
+      // Tablesort plugin from http://tristen.ca/tablesort/demo/
+      Tablesort.extend('tshirt', function(item) {
+        // Regular expression to test against.
+        return /^X?S|M|X?L|2XL$/.test(item);
+      }, function(a, b) {
+        // Custom sort functionality goes here.
+        // e.g var n = (a > b) ? -1 : 1;
+        var sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
+        return sizes.indexOf(b) - sizes.indexOf(a);
+      });
+
+      new Tablesort(document.getElementById('taskTable'));
+    </script>
   </body>
 </html>
